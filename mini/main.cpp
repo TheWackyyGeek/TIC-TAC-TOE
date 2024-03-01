@@ -19,11 +19,10 @@ void printBoad()
     }
 }
 
-bool updateboard()
+bool updateboard( char swap_symbol,std::string println)
 {
     int posx, posy;
-    char swap_symbol = 'X';
-
+    std::cout<<println;
     std::cin >> posx >> posy;
     board[posx - 1][posy - 1] = swap_symbol;
 
@@ -73,25 +72,39 @@ int main()
 {
     bool runningLoop = true;
     bool winnerX = false;
+    bool winnerO = false;
+    char OPTION = 'n';
+    
+    system("cls");
+    std::cout<<"YOU WANT TO PLAY IT ALONE (y/n)? \n";
+    std::cin>> OPTION;
     while (runningLoop)
     {
+        if (OPTION == 'n' || OPTION == 'N')
+        {
         system("cls");
         printBoad();
-        if (winnerX)
+        if (winnerX || winnerO)
         {
             break;
         }
         winnerX = checkWinner();
-
-        runningLoop = updateboard();
+        
+            runningLoop = (updateboard('O',"Enter coordination for O : ") && updateboard('X',"Enter coordination for X : "));
+            
+        }
     }
 
     if (winnerX)
     {
         std::cout << "X person won this Game !!" << std::endl;
     }
+    if (winnerO)
+    {
+        std::cout << "O person won this Game !!" << std::endl;
+    }
 
-    std::cout << "Thanks for playing this game!!" << std::endl;
+    std::cout << "\nThanks for playing this game!!" << std::endl;
 
     return 0;
 }
