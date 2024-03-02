@@ -4,10 +4,26 @@ char board[3][3] = {{' ', ' ', ' '},
                     {' ', ' ', ' '},
                     {' ', ' ', ' '}};
 
+std::string getSpace(char sign ,const int times,char preSign = ' ', char postSign = ' ')
+{
+    std::string space;
+    //Adding the precharacater here 
+    space += preSign;
+    //Filling the rest with symbol in string
+    for(int i = 0  ; i  < times ; i++){
+        space += sign;
+    }
+    //Adding the postcahracter here
+    space += postSign;
+    return space;
+}
+
 void printBoad()
 {
+
+    std::cout<<getSpace(' ',13)<<"TIC TAC TOE"<<std::endl;
     std::cout << std::endl
-              << " -------------" << std::endl;
+              <<getSpace('-',13)<< std::endl;
     for (int i = 0; i < 3; i++)
     {
         for (int j = 0; j < 3; j++)
@@ -15,17 +31,19 @@ void printBoad()
             std::cout << " | " << board[i][j];
         }
         std::cout << " | " << std::endl
-                  << " --------------" << std::endl;
+                  <<getSpace('-',13)<< std::endl;
     }
 }
 
-bool updateboard( char swap_symbol,std::string println)
+bool updateboard(char swap_symbol, std::string println)
 {
+    system("cls");
+    printBoad();
     int posx, posy;
-    std::cout<<println;
+    std::cout << println;
     std::cin >> posx >> posy;
     board[posx - 1][posy - 1] = swap_symbol;
-
+    
     return ((posx > 0 && posx < 4) && (posy > 0 && posy < 4)) ? true : false;
 }
 
@@ -67,31 +85,29 @@ bool checkWinner()
     return (winnerCounterX >= 3 || winnerCounterY >= 3);
 }
 
-
 int main()
 {
     bool runningLoop = true;
     bool winnerX = false;
     bool winnerO = false;
     char OPTION = 'n';
-    
+
     system("cls");
-    std::cout<<"YOU WANT TO PLAY IT ALONE (y/n)? \n";
-    std::cin>> OPTION;
+    std::cout << "YOU WANT TO PLAY IT ALONE (y/n)?    <y is not complete dont use it>\n";
+    std::cin >> OPTION;
+    printBoad();
     while (runningLoop)
     {
         if (OPTION == 'n' || OPTION == 'N')
         {
-        system("cls");
-        printBoad();
-        if (winnerX || winnerO)
-        {
-            break;
-        }
-        winnerX = checkWinner();
-        
-            runningLoop = (updateboard('O',"Enter coordination for O : ") && updateboard('X',"Enter coordination for X : "));
-            
+            system("cls");
+            if (winnerX || winnerO)
+            {
+                break;
+            }
+            winnerX = checkWinner();
+
+            runningLoop = (updateboard('O', "Enter coordination for O : ") && updateboard('X', "Enter coordination for X : "));
         }
     }
 
