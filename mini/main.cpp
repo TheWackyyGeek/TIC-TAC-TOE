@@ -4,6 +4,10 @@ char board[3][3] = {{' ', ' ', ' '},
                     {' ', ' ', ' '},
                     {' ', ' ', ' '}};
 
+void clearScreen(){
+    system("cls");
+}
+
 std::string getSpace(char sign, const int times, char preSign = ' ', char postSign = ' ')
 {
     std::string space;
@@ -22,9 +26,8 @@ std::string getSpace(char sign, const int times, char preSign = ' ', char postSi
 void printBoad()
 {
 
-    std::cout << getSpace(' ', 13) << "TIC TAC TOE" << std::endl;
-    std::cout << std::endl
-              << getSpace('-', 13) << std::endl;
+    std::cout << getSpace(' ', 13) << "TIC TAC TOE\n\n";
+    std::cout <<  getSpace('-', 13) << std::endl;
     for (int i = 0; i < 3; i++)
     {
         for (int j = 0; j < 3; j++)
@@ -36,18 +39,33 @@ void printBoad()
     }
 }
 
+void printWinner(char won){
+    if (won == 'X')
+    {
+        std::cout << "X won this Game !!" << std::endl;
+    }
+    else if (won == 'O')
+    {
+        std::cout << "O won this Game !!" << std::endl;
+    }
+}
+
 bool updateboard(char swap_symbol, std::string println)
 {
-    system("cls");
-    printBoad();
     int posx, posy;
+    do{
     std::cout << println;
     std::cin >> posx >> posy;
+    if(board[posx - 1][posy - 1] == 'X' || board[posx - 1][posy - 1] == 'O'){
+    std::cout<<"invaild input !!\n\n";
+    }
+    }while((board[posx-1][posy-1] == 'X' || board[posx-1][posy-1] == 'O'));
+
     board[posx - 1][posy - 1] = swap_symbol;
 
     return ((posx > 0 && posx < 4) && (posy > 0 && posy < 4)) ? true : false;
 }
-// pending winner checking function
+
 char checkWinner()
 {
     // horizatal check for winner
@@ -122,44 +140,40 @@ char checkWinner()
 
     return '!';
 }
-
-
 int main()
 {
+    clearScreen();
+    std::cout << "Welcome to My own Tic-Tac-Toe Game !!\n";
+    std::cout << "\n Press Enter to continue ->";
+    std::cin.get();
+    clearScreen();
+
     bool runningLoop = true;
-    char winner = '!';
-    char OPTION = 'n';
-    
-    system("cls");
-    std::cout << "YOU WANT TO PLAY IT ALONE (y/n)?    <y is not complete dont use it>\n";
-    std::cin >> OPTION;
-    printBoad();
+    char Winner = '!';
     while (runningLoop)
     {
-        if (OPTION == 'n' || OPTION == 'N')
+        clearScreen();
+        printBoad();
+        runningLoop = updateboard('O',"Enter the position of O: ");
+        printBoad();
+        Winner = checkWinner();
+        if (Winner == 'O' || Winner == 'X')
         {
-            system("cls");
-           
-            winner = checkWinner();
-            runningLoop = (updateboard('O', "Enter coordination for O : ") && updateboard('X', "Enter coordination for X : "));
-            
-            if (winner == 'O'||winner == 'X')
-            {
-                break;
-            }
+            break;
+        }
+
+        clearScreen();
+        printBoad();
+        runningLoop = updateboard('X',"Enter the position of X: ");
+        printBoad();
+        Winner = checkWinner();
+        if (Winner == 'O' || Winner == 'X')
+        {
+            break;
         }
     }
-
-    if (winner == 'X')
-    {
-        std::cout << "X won this Game !!" << std::endl;
-    }
-    else if (winner == 'O')
-    {
-        std::cout << "O won this Game !!" << std::endl;
-    }
-
-    std::cout << "\nThanks for playing this game!!" << std::endl;
-
+    printWinner(Winner);
+    std::cout<<"Thanks for playing this game!!";
+    std::cin.get();
     return 0;
 }
