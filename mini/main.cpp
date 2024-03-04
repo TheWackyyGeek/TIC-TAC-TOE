@@ -5,7 +5,11 @@ char board[3][3] = {{' ', ' ', ' '},
                     {' ', ' ', ' '}};
 
 void clearScreen(){
+     #ifdef _WIN32
     system("cls");
+    #else
+    system("clear");
+    #endif
 }
 
 bool isBoardFilled(){
