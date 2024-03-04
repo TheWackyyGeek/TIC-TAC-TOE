@@ -173,11 +173,11 @@ int main()
     {
         clearScreen();
         printBoad();
-        runningLoop = updateboard('O',"Enter the position of O: ");
+        runningLoop = updateboard('O',"Enter the position of O: ");        
         printBoad();
         clearScreen();
         Winner = checkWinner();
-        if (Winner == 'O' || Winner == 'X' || isBoardFilled())
+        if (Winner == 'O' || Winner == 'X' || isBoardFilled() || !runningLoop)
         {
             break;
         }
@@ -188,7 +188,7 @@ int main()
         clearScreen();
         printBoad();
         Winner = checkWinner();
-        if (Winner == 'O' || Winner == 'X' || isBoardFilled())
+        if (Winner == 'O' || Winner == 'X' || isBoardFilled() || !runningLoop)
         {
             break;
         }
