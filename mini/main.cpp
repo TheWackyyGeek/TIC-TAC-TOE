@@ -8,6 +8,20 @@ void clearScreen(){
     system("cls");
 }
 
+bool isBoardFilled(){
+    int isFilled = 0 ; 
+    for (int i = 0 ; i < 3 ; i ++){
+        for (int j = 0 ; j < 3 ; j++){
+            if (board[i][j] != ' ')
+            {
+                isFilled++;
+            }
+        }
+    }
+    return (isFilled == 9) ? true : false;
+}
+
+
 std::string getSpace(char sign, const int times, char preSign = ' ', char postSign = ' ')
 {
     std::string space;
@@ -40,13 +54,17 @@ void printBoad()
 }
 
 void printWinner(char won){
-    if (won == 'X')
+    
+     if (won == 'X')
     {
         std::cout << "X won this Game !!" << std::endl;
     }
     else if (won == 'O')
     {
         std::cout << "O won this Game !!" << std::endl;
+    }
+    else if(isBoardFilled()){
+        std::cout<<"This Game is Tied (= "<<std::endl; 
     }
 }
 
@@ -140,6 +158,7 @@ char checkWinner()
 
     return '!';
 }
+
 int main()
 {
     clearScreen();
@@ -156,8 +175,9 @@ int main()
         printBoad();
         runningLoop = updateboard('O',"Enter the position of O: ");
         printBoad();
+        clearScreen();
         Winner = checkWinner();
-        if (Winner == 'O' || Winner == 'X')
+        if (Winner == 'O' || Winner == 'X' || isBoardFilled())
         {
             break;
         }
@@ -165,15 +185,17 @@ int main()
         clearScreen();
         printBoad();
         runningLoop = updateboard('X',"Enter the position of X: ");
+        clearScreen();
         printBoad();
         Winner = checkWinner();
-        if (Winner == 'O' || Winner == 'X')
+        if (Winner == 'O' || Winner == 'X' || isBoardFilled())
         {
             break;
         }
     }
     printWinner(Winner);
     std::cout<<"Thanks for playing this game!!";
+    std::cin.get();
     std::cin.get();
     return 0;
 }
